@@ -156,6 +156,8 @@ Most of you will already have completed this step (we hope). For future referenc
 ```{bash}
 which git
 git --version
+
+trial
 ```
 
 ```{bash, eval=FALSE}
