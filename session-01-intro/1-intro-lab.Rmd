@@ -232,6 +232,9 @@ Next we can use the `str()` function to explore the variable names and which dat
 
 ```{r}
 str(penguins)
+
+#here str() short for structure
+# factors are data falling into set values i.e a penguin belongs to either of three species
 ```
 
 :::alert-info
@@ -291,7 +294,7 @@ Access the species information (column 1) for the 10th penguin in the dataset us
 :::
 
 ```{r, echo=F}
-
+penguins[10, 1]
 ```
 
 :::alert-info
@@ -300,7 +303,7 @@ Access the species information (column 1) for the 10th penguin in the dataset us
 Access rows 15 through 20 and columns 1 through 3 of the penguins dataset.
 :::
 ```{r, echo=F}
-
+penguins[15:20, 1:3]
 ```
 
 ### The `$` operator
@@ -333,7 +336,9 @@ Create a table showing the distribution of penguin sex by species. What do you n
 :::
 
 ```{r, echo=F}
+table(penguins$species, penguins$sex, useNA = "always") #useNA to add a distribution of NAs
 
+table(penguins$species, is.na(penguins$sex))
 ```
 
 ## NAs in `R`
@@ -532,6 +537,8 @@ Alex %>%
     destination = "Stadtmitte"
   ) %>%
   hertie(course = "Intro to DS")
+
+
 ```
 
 ### Piping etiquette
@@ -608,7 +615,7 @@ The following code chunk would select the variables we need. Can you adapt it, s
 :::
 
 ```{r,, eval=F}
-dplyr::select(penguins, species, island, year)
+dplyr::select(penguins, species, island, rec_year, body_mass_g, sex)
 ```
 
 Good to know: To **drop** variables, use `-` before the variable name, i.e. select(penguins, -year) to drop the year column (select everything but the year column).
@@ -649,6 +656,11 @@ only_2009_chinstraps <- dplyr::filter(only_2009, species == "Chinstrap")
 only_2009_chinstraps_species_sex_year <- dplyr::select(only_2009_chinstraps, species, sex, rec_year)
 final_df <- only_2009_chinstraps_species_sex_year
 final_df #to print it in our console
+
+only_2009 <- penguins |>
+  filter(rec_year == 2009, species == "Chinstrap") |> 
+  select(species, sex, rec_year)
+print(only_2009)
 
 ```
 
@@ -708,6 +720,12 @@ Can you get the weight of the lightest penguin of each species? You can use `min
 :::
 
 ```{r,, eval=F}
+penguins |>
+  select(species, sex, rec_year, body_mass_g) |> 
+  #filter(!is.na(sex)) |> #just getting rid of propagated NAs in task with sex instead of year
+  group_by(species, rec_year) |> 
+  summarise(lightest_penguins = min(body_mass_g, na.rm = T)) |>
+  ungroup()
 
 ```
 
@@ -719,8 +737,9 @@ The `dplyr::arrange()` verb is pretty self-explanatory. `dplyr::arrange()` order
 
 ```{r, eval=F}
 penguins |>
-  dplyr::arrange(bill_length_mm)
+  dplyr::arrange(desc(bill_length_mm)) #the pipe makes it unnecessery to provide a dataframe direction
 
+?arrange
 ```
 
 ```{r, eval=F}
@@ -737,7 +756,13 @@ Can you create a data frame arranged by body_mass_g of the penguins observed in 
 :::
 
 ```{r,, eval=F}
+penguins |> # default ascending order
+  filter(island == "Dream") |> 
+  arrange(body_mass_g)
 
+penguins |> # descending order with desc() argument within arrange()
+  dplyr::filter(island == "Dream") |> 
+  dplyr::arrange(desc(body_mass_g))
 ```
 
 ------------------------------------------------------------------------
@@ -755,7 +780,7 @@ penguins |> dplyr::slice(c(1, 5))
 `dplyr::pull()`: Extract a column from a data frame as a vector or scalar.
 
 ```{r eval=F}
-penguins |> 
+my_new_vector <- penguins |> #and save it as a vector
   dplyr::filter(sex == "female") |> 
   dplyr::pull(flipper_length_mm)
 ```
@@ -766,7 +791,7 @@ penguins |>
 
 ```{r eval=F}
 penguins |> dplyr::count(species)
-penguins |> dplyr::distinct(species)
+penguins |> dplyr::distinct(rec_year)
 ```
 
 *Note:* You could also use a combination of `dplyr::mutate`, `dplyr::group_by`, and `n()`, e.g. `penguins |> dplyr::group_by(species) |> dplyr::summarize(num = n())`.
