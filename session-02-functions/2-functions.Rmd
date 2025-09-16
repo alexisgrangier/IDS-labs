@@ -85,6 +85,8 @@ When you think about it, data.frames are also lists (or rather a list of columns
 
 ```{r}
 library(gapminder)
+library(tidyverse)
+gapminder <- gapminder
 head(gapminder) 
 ```
 
@@ -236,6 +238,18 @@ Can you write a function to calculate the mode for a variable in the data?
 # you might want to 
 # a) count how many times each value appears in a vector
 # b) find which value(s) appear most frequently
+
+# Way 2: tidyverse SOLUTION
+
+get_mode <- function(v) {
+  out <- v |> 
+    janitor::tabyl() |> 
+    filter(n == max(n)) |> 
+    pull(v)
+  
+  return(out)
+  
+}
 ```
 :::
 
