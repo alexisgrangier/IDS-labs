@@ -480,7 +480,7 @@ Write a function that returns both the mean and the standard deviation for the n
 :::
 
 ```{r}
-
+2
 ```
 
 

@@ -1359,8 +1359,9 @@ src: url(data:font/ttf;base64,AAEAAAARAQAABAAQR0RFRgs+Cz8AAjwQAAAAQEdQT1MXWeoAAA
     
         <style type="text/css">code{white-space: pre;}</style>
     <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -1371,7 +1372,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -1964,7 +1965,7 @@ bug.</p>
 <hr />
 </div>
 <div id="making-function-global" class="section level3">
-<h3>Making function global 🌎</h3>
+<h3>Making function global 🌏</h3>
 <p>One way to approach debugging is to turn the arguments of the
 function into global objects (objects you can see in your environment,
 otherwise the objects are only available within your function). Then you
@@ -2002,7 +2003,7 @@ example described above.</p>
 <div id="using-traceback" class="section level3">
 <h3>Using <code>traceback()</code> 👈</h3>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">geod_dist</span>(<span class="at">lat1 =</span> <span class="fl">49.5</span>, <span class="at">lon1 =</span> <span class="fl">8.4</span>, <span class="at">lat2 =</span> <span class="fl">52.5</span>, <span class="at">lon2 =</span> <span class="fl">13.4</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">traceback</span>()</span></code></pre></div>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">traceback</span>() <span class="co">#traceback looks inside bugged function and returns the line where the error happened first</span></span></code></pre></div>
 <p>This shows you where the error occurred (but not why). Read from
 bottom to top (e.g. 1. called function X, 2. called function Y, error
 occurred in line #6 of function Y)</p>
