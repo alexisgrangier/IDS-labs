@@ -112,7 +112,10 @@ stringr::str_view(x, "a")
 ```{r, echo=FALSE}
 words <- c("running", "jumps", "swimming", "biking", "skates", "hiking", "fishing", "reading")
 
+words_changed <- str_replace_all(words, c("ing" = "er"))
 # Your code here
+words_changed <- str_replace_all(words, c("ing" = "er"))
+
 ```
 :::
 
@@ -121,7 +124,11 @@ words <- c("running", "jumps", "swimming", "biking", "skates", "hiking", "fishin
 ```{r, echo=FALSE}
 # Your code here
 
+count_words <- sum(str_detect(stringr::words, "ise"))
+count_words
+
 # You can access the words vector with: stringr::words
+stringr::words
 ```
 :::
 
@@ -218,7 +225,7 @@ str_extract(example.obj, "sm.ll")
 ### Anchors `r emo::ji('anchor')`
 Next to character classes and quantifiers, *anchors* match the start `^` or end `$` of a string.
 ```{r}
-str_extract(example.obj, "^1")
+str_extract(words, "^1")
 str_extract(example.obj, "^2")
 ```
 
@@ -230,7 +237,7 @@ str_extract(example.obj, "sentence.$")
 ### Alternates `r emo::ji('thought_balloon')`
 
 ```{r}
-unlist(str_extract_all(example.obj, "tiny|sentence"))
+unlist(str_extract_all(stringr::words, "tiny|sentence"))
 ```
 
 ### Matching of meta-characters
@@ -248,6 +255,7 @@ unlist(str_extract_all(example.obj, fixed(".")))
 **Exercise 1**: Can you find all the words in `stringr::words` that end in "ing" or "ise"?
 ```{r}
 # Your code here
+str_view(stringr::words, ".ing$|.ese$") |> unlist()
 ```
 :::
 
@@ -256,6 +264,7 @@ unlist(str_extract_all(example.obj, fixed(".")))
 
 ```{r}
 # Your code here
+str_view(example.obj, ".\\.")
 ```
 :::
 
@@ -315,14 +324,15 @@ unlist(str_extract_all(example.obj, "[12-]"))
 :::alert-info
 **Exercise 3**: Can you make a regex that matches only numbers followed by a dot in `example.obj`? How about letters followed by a dot?
 ```{r}
-# Your code here
+str_extract_all(example.obj, "[:digit:]\\.")
+str_extract_all(example.obj,"[:alpha:]\\.")
 ```
 :::
 
 :::alert-info
 **Exercise 4**: Can you find all words in `stringr::words` that end with "ed" but not with "eed"?
 ```{r}
-# Your code here
+str_view(stringr::words, "[^e]ed$")
 ```
 :::
 
@@ -340,8 +350,8 @@ Quantifiers are meta-characters that allow you to specify how often a certain st
   | `{n,m}`  |  The preceding item is matched between n and m times |
 
 ```{r}
-str_extract(example.obj, "s[[:alpha:]]{3}l")
-str_extract(example.obj, "A.+sentence")
+str_extract(example.obj, "s[[:alpha:]]{3}l") #an s followed by any 3 letters and then one l 
+str_extract(example.obj, "A.+sentence") # here a greedy quantifier
 ```
 
 ### Greedy quantification
@@ -349,8 +359,8 @@ str_extract(example.obj, "A.+sentence")
 The use of `.+` results in "greedy" matching, i.e. the parser tries to match as many characters as possible. This is not always desired. However, the meta-character `? ` helps avoid greedy quantification. More generally, it re-interprets the quantifiers `*`, `+`, `?` or `{m,n}` to match as few times as possible.
 
 ```{r}
-str_extract(example.obj, "A.+sentence")
-str_extract(example.obj, "A.+?sentence")
+str_extract(example.obj, "A.+sentence") # the greedy gets everything in between A----- sentence
+str_extract(example.obj, "A.+?sentence") #here we limit the greedy with ? which stops mqtchingh after 1 match of "sentence"
 ```
 
 :::alert-info
@@ -358,6 +368,8 @@ str_extract(example.obj, "A.+?sentence")
 
 ```{r}
 # Your code here
+str_view(stringr::words, "^[:alpha:]{2}y$") #just to work on the case before completing task with sum()
+str_detect(stringr::words, "^[:alpha:]{2}y$") |> sum()
 ```
 :::
 :::alert-info
@@ -366,6 +378,11 @@ str_extract(example.obj, "A.+?sentence")
 Hint: `\\b` can be use to match a word boundary, i.e. the start or end of a word.
 ```{r}
 # Your code here
+str_view(example.obj, "\\b[:alpha:]{1,5}\\b")
+
+# also possible using str_split()
+str_split(example.obj, pattern = "\\b") |> 
+  str_subset([:alpha:]{1,5}) #just check solution
 ```
 :::
 
