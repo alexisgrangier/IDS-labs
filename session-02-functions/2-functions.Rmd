@@ -95,6 +95,7 @@ Checking:
 
 ```{r}
 as.list(head(gapminder))
+head(gapminder)
 ```
 
 Lists are very useful when you start writing your own functions and iterating through them using the `purrr` family of functions.
@@ -128,6 +129,16 @@ df <- data.frame(
   c = rnorm(100, 2, 1),
   d = rnorm(100, 36, 7)
 )
+
+#just for the purposes of exo 4
+
+df2 <- tibble(
+  e = rnorm(100, 3, 5),
+  f = rnorm(100, 2, 8),
+  g = rnorm(100, 2, 5),
+  h = rnorm(100, 2, 9)
+)
+
 
 df$a <- (df$a - mean(df$a, na.rm = TRUE)) / sd(df$a, na.rm = TRUE)
 df$b <- (df$b - mean(df$b, na.rm = TRUE)) / sd(df$a, na.rm = TRUE) # can you spot the mistake?
@@ -251,6 +262,7 @@ get_mode <- function(v) { # Simon's choice
   
 }
 
+
 get_mode_alexis <- function(v) {
   mode <- v |> 
     janitor::tabyl() |> 
@@ -262,9 +274,9 @@ get_mode_alexis <- function(v) {
   return(mode)
 }
 
-get_mode_alexis(penguins$bill_dep) # it works
+get_mode_alexis(penguins$bill_depth_mm) # it works
 
-freq_table <- tabyl(penguins$bill_dep)
+freq_table <- tabyl(penguins$bill_depth_mm)
 
 ```
 :::
@@ -277,7 +289,7 @@ freq_table <- tabyl(penguins$bill_dep)
 What is the mode for the variable `flipper_length_mm`?
 
 ```{r}
-get_mode_alexis((penguins$flipper_len))
+get_mode_alexis((penguins$flipper_length_mm))
 ```
 :::
 
@@ -324,6 +336,10 @@ df$d <- zscale(df$d)
 for (i in seq_along(df)) {       # seq_along() similar to length()
   df[[i]] <- zscale(df[[i]])     # [[]] because we are working on single elements
 }
+
+
+
+
 ```
 
 
@@ -452,7 +468,7 @@ Go back to the example above. Since all of the means are numeric, it makes more 
 :::
 
 ```{r}
-
+purrr::map_dbl(df, mean, na.rm = TRUE) # we use doubles hence purrr::map_dbl()
 ```
 
 
@@ -470,6 +486,16 @@ knitr::include_graphics("pics/purr_f2_input.png")
 
 The function works exactly the same way as the `purrr::map*` functions for a single input. One caveat that applies only to `purrr::map2()` is that both inputs need to have the **same length**!
 
+
+```{r}
+purrr::map2_dbl(df, df2, mean, na.rm = T)
+
+purrr::map_dbl(df, mean, na.rm = T)
+
+
+?map2
+```
+
 ------------------------------------------------------------------------
 
 
@@ -480,7 +506,32 @@ Write a function that returns both the mean and the standard deviation for the n
 :::
 
 ```{r}
-2
+
+sumstats <- function(df) {
+  
+  df <- df |> 
+    select(is.numeric)
+  
+  mean <- purrr::map(df, mean, na.rm = TRUE)
+  sd <- purrr::map(df, sd, na.rm = TRUE)
+  var_names <- c(colnames(df))
+  
+  new_df <- tibble(
+    var_names = var_names,
+    mean = mean,
+    standard_dev = sd
+  ) |> 
+    unnest()
+  
+  return(new_df)
+}
+
+
+
+sumstats(penguins)
+sumstats(gapminder)
+
+
 ```
 
 
