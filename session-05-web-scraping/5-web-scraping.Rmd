@@ -132,15 +132,19 @@ library(here)
 ```{r}
 parsed_url <- rvest::read_html("https://en.wikipedia.org/wiki/Cologne", 
                                encoding = "UTF-8")
+
+
 ```
 
 **Step 3.** Extract information.
 
 ```{r}
 parsed_url |> 
-  rvest::html_element(xpath = '//p[76]') |> 
-  rvest::html_text()
+  rvest::html_element(xpath = '//p[76]') |> # extracts the 76th paragraph
+  rvest::html_text()                        # print the scraped text
 
+
+# this is bad pratice, not robust to any edits on wikipedia page. below are other methods
 ```
 
 There are many ways to get the same content:
@@ -151,7 +155,7 @@ There are many ways to get the same content:
 # More robust because it relies on the content structure (headings and their IDs)
 # Will still work even if Wikipedia adds/removes other content on the page
 parsed_url |> 
-  rvest::html_element(xpath = '//div[contains(@class, "mw-heading mw-heading3")]//h3[@id="Carnival"]/following::p') |> 
+  rvest::html_element(xpath = '//div[contains(@class, "mw-heading mw-heading3")]//h3[@id="Carnival"]/following::p') |>                # this is an XPath 
   rvest::html_text()
 
 
@@ -226,6 +230,9 @@ Your task is to extract the second paragraph from the "Roman Cologne" section of
 
 ```{r}
 # YOUR ANSWER HERE
+parsed_url |> 
+  rvest::html_elements(xpath = '//*[@id="mw-content-text"]/div[1]/p[8]') # this works
+
 
 ```
 
@@ -278,6 +285,31 @@ Can you tell us:
 
 a) What does it take to be within the top-100 most streamed songs on Spotify? (i.e., how many streams?)
 b) Which artists have the highest number of most streamed songs? (Note that the `artist_s` string might contain multiple unique artists)
+
+```{r}
+# YOUR ANSWER HERE
+
+#2a. 
+spotify_table |> summarise(
+  top_100_cutoff_in_billion = min(streams_billions)
+)
+
+#2b.
+spotify_table |> 
+  janitor::tabyl(artist_s) |> 
+  arrange(desc(n)) |> 
+  tibble()
+
+
+#2b. with separating the main and featured artists
+
+artists <- spotify_table |> 
+  separate_rows(artist_s, sep = "\\s*(and|featuring|with)\\*") |> 
+  group_by(artist_s) |> 
+  mutate(cumulative_streams = sum(streams_billions)) |> 
+  ungroup()
+artists |> head(5)
+```
 
 
 *Bonus at home 🏠*
@@ -504,6 +536,8 @@ query <- 'people/?search=skywalker'
 
 httr::GET(paste0(baseurl, query)) |>
   httr::http_type()  # Check what output returns
+
+?paste0
 ```
 
 
@@ -540,8 +574,9 @@ parsed_data |>
   head(3)
 
 # Alternatively, you could parse by name
-# parsed_data$results |> 
-#   head(3)
+ parsed_data$results |> 
+   head(3)
+ 
 ```
 
 
