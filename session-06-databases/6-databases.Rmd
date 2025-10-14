@@ -99,9 +99,10 @@ For the simple examples that we will see here, we'll need some data sets that co
 
 ```{r, echo = F}
 library(nycflights13)
-# flights 
-# planes
-# airlines
+data(flights)
+data(planes)
+data(airlines)
+
 ```
 
 Let's perform a [left join](https://stat545.com/bit001_dplyr-cheatsheet.html#left_joinsuperheroes-publishers) on the flights and planes datasets. - *Note*: I'm going subset columns after the join, but only to keep text on the slide.
@@ -170,6 +171,20 @@ b) Which airline has the most flights with unregistered planes?
 :::
 
 ```{r}
+#a.
+dplyr::anti_join(flights, planes, by = 'tailnum') |> count()
+
+?anti_join
+
+#b. 
+dplyr::anti_join(flights, planes, by = 'tailnum') |> 
+  group_by(carrier) |> 
+  summarise(number_of_flights = n()) |>
+  dplyr::left_join(airlines, by = 'carrier') |> 
+  arrange(desc(number_of_flights)) |> 
+  slice(1,)
+
+
 
 ```
 
@@ -205,6 +220,8 @@ Accessing databases in R requires a few packages:
 
 ```{r, include=FALSE}
 pacman::p_load(RSQLite, DBI, bigrquery, dbplyr) # getting packages we might need
+
+?pacman
 ```
 
 ------------------------------------------------------------------------
@@ -408,7 +425,20 @@ b) Add the `airports` table to the database with the appropriate index.
 :::
 
 ```{r}
+# do the same with 'airports' df
+data(airports)
+view(airports) #inspect data
 
+dplyr::copy_to(
+  dest = con, 
+  df = nycflights13::airports, 
+  name = "airports", # we create the "airports" table
+  temporary = FALSE, 
+  indexes = list(
+    c("faa")
+  ),
+  overwrite = T
+)
 ```
 
 
@@ -523,6 +553,13 @@ b) Collect the results into a local dataframe.
 :::
 
 ```{r}
+dplyr::left_join(flights_db, airlines_db) |> 
+  filter(month == 1 & day == 1) |> 
+  select(carrier, name, flight)
+  
+
+
+
 
 ```
 
