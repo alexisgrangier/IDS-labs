@@ -1514,7 +1514,7 @@ margin-left: 0 !important;
         <nav role="navigation" id="toc">
           <ul>
           <li><a href="#why-webscrape-with-r" id="toc-why-webscrape-with-r">Why webscrape with R?
-          🌍</a></li>
+          🌎</a></li>
           <li><a href="#scraping-static-sites-with-rvest" id="toc-scraping-static-sites-with-rvest">Scraping static
           sites with <code>rvest</code> 🚜</a>
           <ul>
@@ -1618,7 +1618,7 @@ data</li>
 </ul>
 <hr />
 <div id="why-webscrape-with-r" class="section level1">
-<h1>Why webscrape with R? 🌍</h1>
+<h1>Why webscrape with R? 🌎</h1>
 <p>Web scraping broadly includes:</p>
 <ul>
 <li>getting (unstructured) data from the web, and</li>
@@ -1773,22 +1773,22 @@ of Spotify streaming records</a> Wikipedia entry.</p>
 <pre><code>## # A tibble: 6 × 6
 ##   rank  song                    artist_s     streams_billions release_date ref  
 ##   &lt;chr&gt; &lt;chr&gt;                   &lt;chr&gt;        &lt;chr&gt;            &lt;chr&gt;        &lt;chr&gt;
-## 1 1     &quot;\&quot;Blinding Lights\&quot;&quot;   The Weeknd   5.061            29 November… [1]  
-## 2 2     &quot;\&quot;Shape of You\&quot;&quot;      Ed Sheeran   4.582            6 January 2… [2]  
-## 3 3     &quot;\&quot;Starboy\&quot;&quot;           The Weeknd … 4.128            21 Septembe… [3]  
-## 4 4     &quot;\&quot;Someone You Loved\&quot;&quot; Lewis Capal… 4.077            8 November … [4]  
-## 5 5     &quot;\&quot;Sweater Weather\&quot;&quot;   The Neighbo… 4.071            3 December … [5]  
-## 6 6     &quot;\&quot;As It Was\&quot;&quot;         Harry Styles 4.062            1 April 2022 [6]</code></pre>
+## 1 1     &quot;\&quot;Blinding Lights\&quot;&quot;   The Weeknd   5.075            29 November… [1]  
+## 2 2     &quot;\&quot;Shape of You\&quot;&quot;      Ed Sheeran   4.593            6 January 2… [2]  
+## 3 3     &quot;\&quot;Starboy\&quot;&quot;           The Weeknd … 4.143            21 Septembe… [3]  
+## 4 4     &quot;\&quot;Sweater Weather\&quot;&quot;   The Neighbo… 4.090            3 December … [4]  
+## 5 5     &quot;\&quot;Someone You Loved\&quot;&quot; Lewis Capal… 4.087            8 November … [5]  
+## 6 6     &quot;\&quot;As It Was\&quot;&quot;         Harry Styles 4.073            1 April 2022 [6]</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">tail</span>(spotify_table_raw)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 6
-##   rank                 song         artist_s streams_billions release_date ref  
-##   &lt;chr&gt;                &lt;chr&gt;        &lt;chr&gt;    &lt;chr&gt;            &lt;chr&gt;        &lt;chr&gt;
-## 1 96                   &quot;\&quot;Clean Ba… Dream S… 2.435            29 April 20… &quot;&quot;   
-## 2 97                   &quot;\&quot;Sweet Ch… Guns N&#39;… 2.431            3 June 1988  &quot;[96…
-## 3 98                   &quot;\&quot;Creep\&quot;&quot;  Radiohe… 2.427            21 Septembe… &quot;&quot;   
-## 4 99                   &quot;\&quot;Levitati… Dua Lip… 2.426            1 October 2… &quot;[97…
-## 5 100                  &quot;\&quot;Jocelyn … XXXTent… 2.421            31 October … &quot;[98…
-## 6 As of 7 October 2025 &quot;As of 7 Oc… As of 7… As of 7 October… As of 7 Oct… &quot;As …</code></pre>
+##   rank                  song        artist_s streams_billions release_date ref  
+##   &lt;chr&gt;                 &lt;chr&gt;       &lt;chr&gt;    &lt;chr&gt;            &lt;chr&gt;        &lt;chr&gt;
+## 1 96                    &quot;\&quot;Creep\&quot;&quot; Radiohe… 2.443            21 Septembe… &quot;&quot;   
+## 2 97                    &quot;\&quot;Sad!\&quot;&quot;  XXXTent… 2.442            2 March 2018 &quot;[95…
+## 3 98                    &quot;\&quot;Sweet C… Guns N&#39;… 2.440            3 June 1988  &quot;[96…
+## 4 99                    &quot;\&quot;Levitat… Dua Lip… 2.432            1 October 2… &quot;[97…
+## 5 100                   &quot;\&quot;Someone… Adele    2.424            24 January … &quot;&quot;   
+## 6 As of 15 October 2025 &quot;As of 15 … As of 1… As of 15 Octobe… As of 15 Oc… &quot;As …</code></pre>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="co"># clean up table a bit </span></span>
 <span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>spotify_table <span class="ot">&lt;-</span> spotify_table_raw <span class="sc">|&gt;</span></span>
 <span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">song =</span> stringr<span class="sc">::</span><span class="fu">str_remove_all</span>(song, <span class="st">&#39;</span><span class="sc">\&quot;</span><span class="st">&#39;</span>), <span class="co"># remove quotation marks from song titles</span></span>
@@ -1801,12 +1801,12 @@ of Spotify streaming records</a> Wikipedia entry.</p>
 <pre><code>## # A tibble: 6 × 5
 ##   rank  song              artist_s                 streams_billions release_date
 ##   &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt;                               &lt;dbl&gt; &lt;chr&gt;       
-## 1 1     Blinding Lights   The Weeknd                           5.06 29 November…
-## 2 2     Shape of You      Ed Sheeran                           4.58 6 January 2…
-## 3 3     Starboy           The Weeknd and Daft Punk             4.13 21 Septembe…
-## 4 4     Someone You Loved Lewis Capaldi                        4.08 8 November …
-## 5 5     Sweater Weather   The Neighbourhood                    4.07 3 December …
-## 6 6     As It Was         Harry Styles                         4.06 1 April 2022</code></pre>
+## 1 1     Blinding Lights   The Weeknd                           5.08 29 November…
+## 2 2     Shape of You      Ed Sheeran                           4.59 6 January 2…
+## 3 3     Starboy           The Weeknd and Daft Punk             4.14 21 Septembe…
+## 4 4     Sweater Weather   The Neighbourhood                    4.09 3 December …
+## 5 5     Someone You Loved Lewis Capaldi                        4.09 8 November …
+## 6 6     As It Was         Harry Styles                         4.07 1 April 2022</code></pre>
 <div class="alert-info pad-box">
 <p><strong>Exercise 2</strong></p>
 <p>Can you tell us:</p>
@@ -1832,7 +1832,7 @@ artists)</li>
 <span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">tabyl</span>(artist_s) <span class="sc">|&gt;</span> </span>
 <span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n)) <span class="sc">|&gt;</span> </span>
 <span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a>  <span class="fu">tibble</span>()</span></code></pre></div>
-<pre><code>## # A tibble: 76 × 3
+<pre><code>## # A tibble: 77 × 3
 ##    artist_s            n percent
 ##    &lt;chr&gt;           &lt;int&gt;   &lt;dbl&gt;
 ##  1 Bruno Mars          4    0.04
@@ -1845,7 +1845,7 @@ artists)</li>
 ##  8 Eminem              2    0.02
 ##  9 Harry Styles        2    0.02
 ## 10 Justin Bieber       2    0.02
-## # ℹ 66 more rows</code></pre>
+## # ℹ 67 more rows</code></pre>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="co">#2b. with separating the main and featured artists</span></span>
 <span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a></span>
 <span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>artists <span class="ot">&lt;-</span> spotify_table <span class="sc">|&gt;</span> </span>
@@ -1857,11 +1857,11 @@ artists)</li>
 <pre><code>## # A tibble: 5 × 6
 ##   rank  song           artist_s streams_billions release_date cumulative_streams
 ##   &lt;chr&gt; &lt;chr&gt;          &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;                     &lt;dbl&gt;
-## 1 1     Blinding Ligh… The Wee…             5.06 29 November…              13.3 
-## 2 2     Shape of You   Ed Shee…             4.58 6 January 2…              14.3 
-## 3 3     Starboy        The Wee…             4.13 21 Septembe…               4.13
-## 4 4     Someone You L… Lewis C…             4.08 8 November …               4.08
-## 5 5     Sweater Weath… The Nei…             4.07 3 December …               4.07</code></pre>
+## 1 1     Blinding Ligh… The Wee…             5.08 29 November…              13.4 
+## 2 2     Shape of You   Ed Shee…             4.59 6 January 2…              14.3 
+## 3 3     Starboy        The Wee…             4.14 21 Septembe…               4.14
+## 4 4     Sweater Weath… The Nei…             4.09 3 December …               4.09
+## 5 5     Someone You L… Lewis C…             4.09 8 November …               4.09</code></pre>
 <p><em>Bonus at home 🏠</em></p>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>Which artists have the most cumulative streams?</li>
