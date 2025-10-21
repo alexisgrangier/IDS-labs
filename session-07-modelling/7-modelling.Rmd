@@ -209,7 +209,20 @@ Using the two-step approach, create formulas that perform the following regressi
 
 ```{r, echo= FALSE}
 # your code here
+
+reg_3_formula_string <- paste("life_expectancy ~ gdp + population + alcohol")
+formula_reg_3 <- as.formula(reg_3_formula_string)
+reg_3 <- lm(formula_reg_3, data = life_expec_dat)
+reg_3
+
+
+reg_4_formula_string <- paste(reg_3_formula_string, "+ gdp * population")
+reg_4_formula_string
+formula_reg_4 <- as.formula(reg_4_formula_string)
+reg_4 <- lm(formula_reg_4, data = life_expec_dat)
+
 ```
+
 :::
 
 ---
@@ -292,6 +305,7 @@ combn_models <- function(depvar, covars, data) {
   for (i in seq_along(covars)) {
     combn_list[[i]] <- combn(covars, i, simplify = FALSE)
   } # what is combn?
+  
   
   # unlist to make object easier to work with
   combn_list <-
@@ -594,10 +608,21 @@ mod_table
 When using the `kableExtra` package, you can even post-process your table:
 
 ```{r}
-mod_table |> 
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = F, fixed_thead = T) |> 
-  row_spec(3, color = 'red') |>
-  row_spec(5, background = 'lightblue')
+mod_table <- modelsummary::modelsummary(multiv_model_out[29:31], 
+                                        output = "kableExtra",
+                                        fmt = "%.2f",  # 2-digits and trailing 0  
+                                        estimate  = "{estimate}",
+                                        statistic = "conf.int",
+                                        coef_omit = "Intercept",
+                                        coef_rename=c("gdp"="Gdp", 
+                                                      "bmi"="Avg. BMI", 
+                                                      "alcohol" = "Alcohol Consum.",
+                                                      "hiv_aids"= "HIV cases", 
+                                                      "percentage_expenditure" = "Health Expenditure (% of GDP)",
+                                                      "life_expectancy" = "Life Expectancy"),
+                                        gof_omit = 'DF|Deviance|Log.Lik|AIC|BIC',
+                                        title = 'An Improved Regression Table',
+                                        escape = FALSE)
 ```
 
 :::{.alert-info .pad-box}
@@ -609,7 +634,28 @@ Our implementation of `modelsummary` above is good, but it can be improved furth
 
 
 ```{r, echo= FALSE}
+mod_table <- modelsummary::modelsummary(multiv_model_out[29:31], 
+                                        output = "kableExtra",
+                                        fmt = "%.2f",  # 2-digits and trailing 0  
+                                        estimate  = "{estimate}",
+                                        statistic = "conf.int",
+                                        coef_omit = "Intercept",
+                                        coef_rename=c("gdp"="Gdp", 
+                                                      "bmi"="Avg. BMI", 
+                                                      "alcohol" = "Alcohol Consum.",
+                                                      "hiv_aids"= "HIV cases", 
+                                                      "percentage_expenditure" = "Health Expenditure (% of GDP)",
+                                                      "life_expectancy" = "Life Expectancy"),
+                                        gof_omit = 'DF|Deviance|Log.Lik|AIC|BIC',
+                                        title = 'An Improved Regression Table',
+                                        notes = "Note : This data originated from the World Health Organization",
+                                        escape = FALSE)
 
+
+mod_table |> 
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = F, fixed_thead = T) |> 
+  row_spec(3, color = 'red') |>
+  row_spec(5, background = 'lightblue')
 ```  
 :::
 ---
