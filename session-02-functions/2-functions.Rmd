@@ -88,7 +88,6 @@ library(gapminder)
 library(tidyverse)
 library(janitor)
 data(gapminder)
-
 ```
 
 Checking:
@@ -129,6 +128,7 @@ df <- data.frame(
   c = rnorm(100, 2, 1),
   d = rnorm(100, 36, 7)
 )
+df
 
 #just for the purposes of exo 4
 
@@ -250,34 +250,13 @@ Can you write a function to calculate the mode for a variable in the data?
 # a) count how many times each value appears in a vector
 # b) find which value(s) appear most frequently
 
-# Way 2: tidyverse SOLUTION
-
-get_mode <- function(v) { # Simon's choice
-  out <- v |> 
+get_mode <-function(x) {
+  output <- x |> 
     janitor::tabyl() |> 
-    filter(n == max(n)) |> 
-    pull(v)
-  
-  return(out)
-  
+    filter
 }
 
-
-get_mode_alexis <- function(v) {
-  mode <- v |> 
-    janitor::tabyl() |> 
-    filter(n == max(n)) |> 
-    pull(v)
-#  freq <- mode |>     # an attempt to return the mode and the frequency of the mode. doesn't work like this
-#    filter(n == max(freq)) |> 
- #   pull(freq)
-  return(mode)
-}
-
-get_mode_alexis(penguins$bill_depth_mm) # it works
-
-freq_table <- tabyl(penguins$bill_depth_mm)
-
+penguins |> tabyl(body_mass_g, flipper_length_mm)
 ```
 :::
 

@@ -104,23 +104,13 @@ stringr::str_locate_all(x, 'a')
 `stringr::str_view()` and `stringr::str_view_all()` are useful for visualizing matches. They display the strings with the matched patterns highlighted.
 
 ```{r, echo}
-stringr::str_view(x, "a")
+stringr::str_view("a")
 ```
 
 :::alert-info
 **Exercise 1**: Can you find all words in that contain the sequence "ing" in the list below, and change them to be "er" instead?
 ```{r, echo=FALSE}
 words <- c("running", "jumps", "swimming", "biking", "skates", "hiking", "fishing", "reading")
-
-words_changed <- str_replace_all(words, c("ing" = "er"))
-# Your code here
-<<<<<<< HEAD
-words_changed <- str_replace_all(words, c("ing" = "er"))
-
-=======
-stringr::str_replace_all(words, c("ing" = "er", "er" = "ed"))
-stringr::str_replace_all(words, "ing", "er")
->>>>>>> db086bce164228f273a25ecb6b987f285c046e2f
 ```
 :::
 
@@ -385,9 +375,6 @@ Hint: `\\b` can be use to match a word boundary, i.e. the start or end of a word
 # Your code here
 str_view(example.obj, "\\b[:alpha:]{1,5}\\b")
 
-# also possible using str_split()
-str_split(example.obj, pattern = "\\b") |> 
-  str_subset([:alpha:]{1,5}) #just check solution
 ```
 :::
 

@@ -185,10 +185,13 @@ server <- function(input, output, session) {
       scale_color_manual(values = c("Yes" = "orange", "No" = "gray"),guide = "none") +
       labs(
         x = xvar_name,
-        y = yvar_name
+        y = yvar_name,
+        title = "A distribution of movies as a function of review score and number of reviews"
       ) +
       theme_minimal()
+
     
+
     # Convert to plotly
     ggplotly(p, tooltip = "text", height = 400)
   })

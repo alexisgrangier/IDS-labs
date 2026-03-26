@@ -368,6 +368,8 @@ ggplot(df, aes(x = gdpPercap, y = lifeExp)) +
        x = "GDP per capita",
        y = "Life expectancy") +
   theme_light()
+
+
 ```
 
 ---
